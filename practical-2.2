@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Product Filter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
+            <h1 class="text-3xl font-bold text-center text-gray-800 mb-6">Our Products</h1>
+
+            <div class="mb-6">
+                <label for="categoryFilter" class="block text-sm font-medium text-gray-700 mb-2">Filter by Category:</label>
+                <select id="categoryFilter" class="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                    <option value="all">All Categories</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="apparel">Apparel</option>
+                    <option value="books">Books</option>
+                </select>
+            </div>
+
+            <div id="productList" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const products = [
+            { id: 1, name: 'Wireless Mouse', category: 'electronics', description: 'Ergonomic wireless mouse with high precision.', price: '$25.00' },
+            { id: 2, name: 'Cotton T-Shirt', category: 'apparel', description: 'Comfortable and stylish 100% cotton t-shirt.', price: '$15.00' },
+            { id: 3, name: 'JavaScript Guide', category: 'books', description: 'The definitive guide to modern JavaScript.', price: '$35.00' },
+            { id: 4, name: 'Noise-Cancelling Headphones', category: 'electronics', description: 'Immerse yourself in sound with these headphones.', price: '$200.00' },
+            { id: 5, name: 'Denim Jeans', category: 'apparel', description: 'Classic fit denim for everyday wear.', price: '$50.00' },
+            { id: 6, name: 'The Art of Programming', category: 'books', description: 'A deep dive into computer science fundamentals.', price: '$45.00' },
+            { id: 7, name: 'Smartwatch', category: 'electronics', description: 'Stay connected on the go with this smartwatch.', price: '$150.00' },
+            { id: 8, name: 'Hoodie', category: 'apparel', description: 'A warm and cozy hoodie for chilly days.', price: '$40.00' }
+        ];
+
+        const productList = document.getElementById('productList');
+        const categoryFilter = document.getElementById('categoryFilter');
+
+        const displayProducts = (filteredProducts) => {
+            productList.innerHTML = '';
+            filteredProducts.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white border border-gray-200 rounded-lg shadow-sm p-4 flex flex-col justify-between transition-transform transform hover:scale-105';
+                
+                productCard.innerHTML = `
+                    <div>
+                        <h2 class="text-xl font-semibold text-gray-800">${product.name}</h2>
+                        <p class="text-sm text-gray-500 capitalize mb-2">${product.category}</p>
+                        <p class="text-gray-600 mb-4">${product.description}</p>
+                    </div>
+                    <div class="text-lg font-bold text-indigo-600">${product.price}</div>
+                `;
+                productList.appendChild(productCard);
+            });
+        };
+
+        categoryFilter.addEventListener('change', (event) => {
+            const selectedCategory = event.target.value;
+            
+            if (selectedCategory === 'all') {
+                displayProducts(products);
+            } else {
+                const filteredProducts = products.filter(product => product.category === selectedCategory);
+                displayProducts(filteredProducts);
+            }
+        });
+
+        window.onload = () => {
+            displayProducts(products);
+        };
+    </script>
+</body>
+</html>
